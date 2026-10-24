@@ -1,5 +1,10 @@
-
+using Cinema.BL.Services.Customers;
+using Cinema.BL.Services.Halls;
+using Cinema.BL.Services.Movies;
 using Cinema.DAL.Data;
+using Cinema.DAL.Repos.Customers;
+using Cinema.DAL.Repos.Halls;
+using Cinema.DAL.Repos.Movies;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cinema.API
@@ -10,17 +15,23 @@ namespace Cinema.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
+
+            builder.Services.AddDbContext<ApplicationContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
+
+            builder.Services.AddScoped<ICustomerRepo, CustomerRepo>();
+            builder.Services.AddScoped<IHallRepo, HallRepo>();
+            builder.Services.AddScoped<IMovieRepo, MovieRepo>();
+
+            builder.Services.AddScoped<ICustomerService, CustomerService>();
+            builder.Services.AddScoped<IHallService, HallService>();
+            builder.Services.AddScoped<IMovieService, MovieService>();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -28,10 +39,7 @@ namespace Cinema.API
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();
