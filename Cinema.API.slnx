@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Cinema.API/Cinema.API.csproj" />
+  <Project Path="Cinema.BL/Cinema.BL.csproj" Id="5bd918dd-b5f0-47d0-ba4b-00df45bbea5e" />
+  <Project Path="Cinema.DAL/Cinema.DAL.csproj" Id="c1d5a316-503a-4086-98ad-5dab17fccd4e" />
+</Solution>
